@@ -177,33 +177,13 @@ async function fetchTimeForZone(timezone) {
 
 function getFallbackTimeForZone(timezone) {
     const now = new Date();
-    const formatter = new Intl.DateTimeFormat('en-US', {
-        timeZone: timezone,
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-    });
     
-    const parts = formatter.formatToParts(now);
-    const dateObj = {};
-    parts.forEach(part => {
-        if (part.type !== 'literal') {
-            dateObj[part.type] = part.value;
-        }
-    });
-    
-    const datetime = `${dateObj.year}-${dateObj.month}-${dateObj.day}T${dateObj.hour}:${dateObj.minute}:${dateObj.second}`;
-    
+    // Store the UTC timestamp as the reference point
     return {
-        datetime: datetime,
+        datetime: now.toISOString(),
         timezone: timezone,
         utc_offset: getTimezoneOffset(timezone),
-        day_of_week: now.getDay(),
-        day_of_year: Math.floor((now - new Date(now.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24))
+        utc_timestamp: now.getTime()
     };
 }
 
@@ -226,13 +206,13 @@ function updateDisplay() {
     const adjustedTime1 = getAdjustedTime(baseDateTime1, sliderOffsetMinutes);
     const adjustedTime2 = getAdjustedTime(baseDateTime2, sliderOffsetMinutes);
     
-    // Update clocks and displays
-    updateTimeDisplay(adjustedTime1, '1');
-    updateTimeDisplay(adjustedTime2, '2');
+    // Update clocks and displays (returns the timezone-specific hour)
+    const hour1 = updateTimeDisplay(adjustedTime1, '1');
+    const hour2 = updateTimeDisplay(adjustedTime2, '2');
     
-    // Update day/night indicators
-    updateDayNightIndicator(adjustedTime1, 'dayNight1');
-    updateDayNightIndicator(adjustedTime2, 'dayNight2');
+    // Update day/night indicators with timezone-specific hours
+    updateDayNightIndicatorWithHour(hour1, 'dayNight1');
+    updateDayNightIndicatorWithHour(hour2, 'dayNight2');
     
     // Update slider info
     updateSliderInfo(sliderOffsetMinutes);
@@ -251,29 +231,55 @@ function getAdjustedTime(baseTime, offsetMinutes) {
 
 function updateTimeDisplay(timeData, locationNum) {
     const date = timeData.date;
+    const timezone = timeData.timezone;
+    
+    // Convert UTC time to the specific timezone using Intl.DateTimeFormat
+    const timeFormatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: timezone,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    });
+    
+    const dateFormatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: timezone,
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+    
+    // Get time parts for the timezone
+    const timeParts = timeFormatter.formatToParts(date);
+    const hours = timeParts.find(p => p.type === 'hour').value;
+    const minutes = timeParts.find(p => p.type === 'minute').value;
+    const seconds = timeParts.find(p => p.type === 'second').value;
     
     // Update digital time
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
     document.getElementById(`digitalTime${locationNum}`).textContent = `${hours}:${minutes}:${seconds}`;
     
     // Update date display
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const dateString = date.toLocaleDateString('en-US', options);
+    const dateString = dateFormatter.format(date);
     document.getElementById(`dateDisplay${locationNum}`).textContent = dateString;
     
     // Update timezone offset
     document.getElementById(`offset${locationNum}`).textContent = `UTC ${timeData.utc_offset}`;
     
-    // Update analog clock
-    updateAnalogClock(date, locationNum);
+    // Update analog clock with timezone-converted time
+    const hourNum = parseInt(hours);
+    const minuteNum = parseInt(minutes);
+    const secondNum = parseInt(seconds);
+    updateAnalogClock({ hours: hourNum, minutes: minuteNum, seconds: secondNum }, locationNum);
+    
+    // Return the hour for day/night indicator
+    return hourNum;
 }
 
-function updateAnalogClock(date, locationNum) {
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
+function updateAnalogClock(timeData, locationNum) {
+    const hours = timeData.hours;
+    const minutes = timeData.minutes;
+    const seconds = timeData.seconds;
     
     // Calculate angles
     const secondAngle = (seconds * 6); // 360 / 60
@@ -286,8 +292,7 @@ function updateAnalogClock(date, locationNum) {
     document.getElementById(`secondHand${locationNum}`).style.transform = `rotate(${secondAngle}deg)`;
 }
 
-function updateDayNightIndicator(timeData, elementId) {
-    const hour = timeData.date.getHours();
+function updateDayNightIndicatorWithHour(hour, elementId) {
     const indicator = document.getElementById(elementId);
     
     // Consider day if hour is between 6 AM and 6 PM
