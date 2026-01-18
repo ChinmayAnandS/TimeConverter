@@ -1,0 +1,110 @@
+// Comprehensive list of IANA time zones with country/city information
+const timezones = [
+    // Africa
+    { name: "Cairo, Egypt", timezone: "Africa/Cairo", offset: "+02:00" },
+    { name: "Johannesburg, South Africa", timezone: "Africa/Johannesburg", offset: "+02:00" },
+    { name: "Lagos, Nigeria", timezone: "Africa/Lagos", offset: "+01:00" },
+    { name: "Nairobi, Kenya", timezone: "Africa/Nairobi", offset: "+03:00" },
+    { name: "Casablanca, Morocco", timezone: "Africa/Casablanca", offset: "+01:00" },
+    { name: "Algiers, Algeria", timezone: "Africa/Algiers", offset: "+01:00" },
+    { name: "Tunis, Tunisia", timezone: "Africa/Tunis", offset: "+01:00" },
+    { name: "Accra, Ghana", timezone: "Africa/Accra", offset: "+00:00" },
+    { name: "Addis Ababa, Ethiopia", timezone: "Africa/Addis_Ababa", offset: "+03:00" },
+    
+    // Americas - North America
+    { name: "New York, USA", timezone: "America/New_York", offset: "-05:00" },
+    { name: "Los Angeles, USA", timezone: "America/Los_Angeles", offset: "-08:00" },
+    { name: "Chicago, USA", timezone: "America/Chicago", offset: "-06:00" },
+    { name: "Denver, USA", timezone: "America/Denver", offset: "-07:00" },
+    { name: "Phoenix, USA", timezone: "America/Phoenix", offset: "-07:00" },
+    { name: "Anchorage, USA", timezone: "America/Anchorage", offset: "-09:00" },
+    { name: "Honolulu, USA", timezone: "Pacific/Honolulu", offset: "-10:00" },
+    { name: "Toronto, Canada", timezone: "America/Toronto", offset: "-05:00" },
+    { name: "Vancouver, Canada", timezone: "America/Vancouver", offset: "-08:00" },
+    { name: "Montreal, Canada", timezone: "America/Montreal", offset: "-05:00" },
+    { name: "Mexico City, Mexico", timezone: "America/Mexico_City", offset: "-06:00" },
+    
+    // Americas - Central & South America
+    { name: "Buenos Aires, Argentina", timezone: "America/Argentina/Buenos_Aires", offset: "-03:00" },
+    { name: "São Paulo, Brazil", timezone: "America/Sao_Paulo", offset: "-03:00" },
+    { name: "Rio de Janeiro, Brazil", timezone: "America/Sao_Paulo", offset: "-03:00" },
+    { name: "Lima, Peru", timezone: "America/Lima", offset: "-05:00" },
+    { name: "Bogotá, Colombia", timezone: "America/Bogota", offset: "-05:00" },
+    { name: "Santiago, Chile", timezone: "America/Santiago", offset: "-03:00" },
+    { name: "Caracas, Venezuela", timezone: "America/Caracas", offset: "-04:00" },
+    { name: "Panama City, Panama", timezone: "America/Panama", offset: "-05:00" },
+    { name: "Havana, Cuba", timezone: "America/Havana", offset: "-05:00" },
+    
+    // Asia
+    { name: "Tokyo, Japan", timezone: "Asia/Tokyo", offset: "+09:00" },
+    { name: "Shanghai, China", timezone: "Asia/Shanghai", offset: "+08:00" },
+    { name: "Beijing, China", timezone: "Asia/Shanghai", offset: "+08:00" },
+    { name: "Hong Kong", timezone: "Asia/Hong_Kong", offset: "+08:00" },
+    { name: "Singapore", timezone: "Asia/Singapore", offset: "+08:00" },
+    { name: "Seoul, South Korea", timezone: "Asia/Seoul", offset: "+09:00" },
+    { name: "Bangkok, Thailand", timezone: "Asia/Bangkok", offset: "+07:00" },
+    { name: "Kolkata, India", timezone: "Asia/Kolkata", offset: "+05:30" },
+    { name: "Mumbai, India", timezone: "Asia/Kolkata", offset: "+05:30" },
+    { name: "Delhi, India", timezone: "Asia/Kolkata", offset: "+05:30" },
+    { name: "Dubai, UAE", timezone: "Asia/Dubai", offset: "+04:00" },
+    { name: "Riyadh, Saudi Arabia", timezone: "Asia/Riyadh", offset: "+03:00" },
+    { name: "Tel Aviv, Israel", timezone: "Asia/Jerusalem", offset: "+02:00" },
+    { name: "Istanbul, Turkey", timezone: "Europe/Istanbul", offset: "+03:00" },
+    { name: "Jakarta, Indonesia", timezone: "Asia/Jakarta", offset: "+07:00" },
+    { name: "Manila, Philippines", timezone: "Asia/Manila", offset: "+08:00" },
+    { name: "Kuala Lumpur, Malaysia", timezone: "Asia/Kuala_Lumpur", offset: "+08:00" },
+    { name: "Karachi, Pakistan", timezone: "Asia/Karachi", offset: "+05:00" },
+    { name: "Dhaka, Bangladesh", timezone: "Asia/Dhaka", offset: "+06:00" },
+    { name: "Kathmandu, Nepal", timezone: "Asia/Kathmandu", offset: "+05:45" },
+    { name: "Colombo, Sri Lanka", timezone: "Asia/Colombo", offset: "+05:30" },
+    { name: "Kabul, Afghanistan", timezone: "Asia/Kabul", offset: "+04:30" },
+    { name: "Taipei, Taiwan", timezone: "Asia/Taipei", offset: "+08:00" },
+    { name: "Ho Chi Minh City, Vietnam", timezone: "Asia/Ho_Chi_Minh", offset: "+07:00" },
+    { name: "Yangon, Myanmar", timezone: "Asia/Yangon", offset: "+06:30" },
+    
+    // Europe
+    { name: "London, UK", timezone: "Europe/London", offset: "+00:00" },
+    { name: "Paris, France", timezone: "Europe/Paris", offset: "+01:00" },
+    { name: "Berlin, Germany", timezone: "Europe/Berlin", offset: "+01:00" },
+    { name: "Madrid, Spain", timezone: "Europe/Madrid", offset: "+01:00" },
+    { name: "Rome, Italy", timezone: "Europe/Rome", offset: "+01:00" },
+    { name: "Amsterdam, Netherlands", timezone: "Europe/Amsterdam", offset: "+01:00" },
+    { name: "Brussels, Belgium", timezone: "Europe/Brussels", offset: "+01:00" },
+    { name: "Vienna, Austria", timezone: "Europe/Vienna", offset: "+01:00" },
+    { name: "Zurich, Switzerland", timezone: "Europe/Zurich", offset: "+01:00" },
+    { name: "Stockholm, Sweden", timezone: "Europe/Stockholm", offset: "+01:00" },
+    { name: "Copenhagen, Denmark", timezone: "Europe/Copenhagen", offset: "+01:00" },
+    { name: "Oslo, Norway", timezone: "Europe/Oslo", offset: "+01:00" },
+    { name: "Helsinki, Finland", timezone: "Europe/Helsinki", offset: "+02:00" },
+    { name: "Warsaw, Poland", timezone: "Europe/Warsaw", offset: "+01:00" },
+    { name: "Prague, Czech Republic", timezone: "Europe/Prague", offset: "+01:00" },
+    { name: "Budapest, Hungary", timezone: "Europe/Budapest", offset: "+01:00" },
+    { name: "Athens, Greece", timezone: "Europe/Athens", offset: "+02:00" },
+    { name: "Moscow, Russia", timezone: "Europe/Moscow", offset: "+03:00" },
+    { name: "Lisbon, Portugal", timezone: "Europe/Lisbon", offset: "+00:00" },
+    { name: "Dublin, Ireland", timezone: "Europe/Dublin", offset: "+00:00" },
+    { name: "Bucharest, Romania", timezone: "Europe/Bucharest", offset: "+02:00" },
+    { name: "Sofia, Bulgaria", timezone: "Europe/Sofia", offset: "+02:00" },
+    { name: "Kyiv, Ukraine", timezone: "Europe/Kiev", offset: "+02:00" },
+    
+    // Oceania
+    { name: "Sydney, Australia", timezone: "Australia/Sydney", offset: "+11:00" },
+    { name: "Melbourne, Australia", timezone: "Australia/Melbourne", offset: "+11:00" },
+    { name: "Brisbane, Australia", timezone: "Australia/Brisbane", offset: "+10:00" },
+    { name: "Perth, Australia", timezone: "Australia/Perth", offset: "+08:00" },
+    { name: "Auckland, New Zealand", timezone: "Pacific/Auckland", offset: "+13:00" },
+    { name: "Wellington, New Zealand", timezone: "Pacific/Auckland", offset: "+13:00" },
+    { name: "Fiji", timezone: "Pacific/Fiji", offset: "+12:00" },
+    { name: "Guam", timezone: "Pacific/Guam", offset: "+10:00" },
+    
+    // Atlantic & Other
+    { name: "Reykjavik, Iceland", timezone: "Atlantic/Reykjavik", offset: "+00:00" },
+    { name: "Azores, Portugal", timezone: "Atlantic/Azores", offset: "-01:00" },
+    { name: "Cape Verde", timezone: "Atlantic/Cape_Verde", offset: "-01:00" },
+    
+    // UTC
+    { name: "UTC (Coordinated Universal Time)", timezone: "UTC", offset: "+00:00" },
+];
+
+// Sort timezones alphabetically by name
+timezones.sort((a, b) => a.name.localeCompare(b.name));

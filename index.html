@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Zone Explorer - Compare Time Across the World</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="theme-toggle" id="themeToggle" title="Toggle dark/light mode">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1>Time Zone Explorer</h1>
+            <p>Slide through time across the world</p>
+        </header>
+
+        <div class="location-selectors">
+            <div class="location-card">
+                <label for="location1">First Location</label>
+                <div class="select-wrapper">
+                    <input type="text" id="location1Search" class="location-search" placeholder="Search location..." autocomplete="off">
+                    <select id="location1" class="location-select">
+                        <option value="">Select a location...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="swap-button" id="swapButton" title="Swap locations">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <polyline points="19 12 12 19 5 12"></polyline>
+                </svg>
+            </div>
+
+            <div class="location-card">
+                <label for="location2">Second Location</label>
+                <div class="select-wrapper">
+                    <input type="text" id="location2Search" class="location-search" placeholder="Search location..." autocomplete="off">
+                    <select id="location2" class="location-select">
+                        <option value="">Select a location...</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="time-display-container" id="timeDisplayContainer" style="display: none;">
+            <!-- Location 1 Time Display -->
+            <div class="time-card">
+                <div class="time-header">
+                    <h2 id="location1Name">Location 1</h2>
+                    <div class="day-night-indicator" id="dayNight1">
+                        <svg class="day-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                        </svg>
+                        <svg class="night-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- Analog Clock -->
+                <div class="analog-clock" id="analogClock1">
+                    <div class="clock-face">
+                        <div class="clock-hour-hand" id="hourHand1"></div>
+                        <div class="clock-minute-hand" id="minuteHand1"></div>
+                        <div class="clock-second-hand" id="secondHand1"></div>
+                        <div class="clock-center"></div>
+                    </div>
+                </div>
+
+                <!-- Digital Time -->
+                <div class="digital-time" id="digitalTime1">00:00:00</div>
+                <div class="date-display" id="dateDisplay1">Loading...</div>
+                <div class="timezone-offset" id="offset1"></div>
+            </div>
+
+            <!-- Location 2 Time Display -->
+            <div class="time-card">
+                <div class="time-header">
+                    <h2 id="location2Name">Location 2</h2>
+                    <div class="day-night-indicator" id="dayNight2">
+                        <svg class="day-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                        </svg>
+                        <svg class="night-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- Analog Clock -->
+                <div class="analog-clock" id="analogClock2">
+                    <div class="clock-face">
+                        <div class="clock-hour-hand" id="hourHand2"></div>
+                        <div class="clock-minute-hand" id="minuteHand2"></div>
+                        <div class="clock-second-hand" id="secondHand2"></div>
+                        <div class="clock-center"></div>
+                    </div>
+                </div>
+
+                <!-- Digital Time -->
+                <div class="digital-time" id="digitalTime2">00:00:00</div>
+                <div class="date-display" id="dateDisplay2">Loading...</div>
+                <div class="timezone-offset" id="offset2"></div>
+            </div>
+        </div>
+
+        <!-- Time Slider -->
+        <div class="slider-container" id="sliderContainer" style="display: none;">
+            <div class="slider-label">
+                <span>Travel through time</span>
+                <button class="reset-button" id="resetButton">Reset to Now</button>
+            </div>
+            
+            <!-- Timeline visualization -->
+            <div class="timeline-bar">
+                <div class="timeline-gradient"></div>
+                <div class="timeline-markers">
+                    <div class="timeline-marker" style="left: 0%"><span>12 AM</span></div>
+                    <div class="timeline-marker" style="left: 25%"><span>6 AM</span></div>
+                    <div class="timeline-marker" style="left: 50%"><span>12 PM</span></div>
+                    <div class="timeline-marker" style="left: 75%"><span>6 PM</span></div>
+                    <div class="timeline-marker" style="left: 100%"><span>12 AM</span></div>
+                </div>
+            </div>
+            
+            <input type="range" id="timeSlider" class="time-slider" min="0" max="1440" value="720" step="1">
+            
+            <div class="slider-info">
+                <div class="time-offset" id="timeOffset">Current time</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="timezones.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
